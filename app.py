@@ -1,13 +1,21 @@
-from flask import Flask
-from flask.wrappers import Request
-from werkzeug.wrappers import request
-from product import Produto
+from flask import Flask, render_template, redirect, request
 from repository import conexao, insert, select, select_id, delete, update
+from product import Produto
 
 
 
 
 app = Flask(__name__)
+
+@app.route('/', methods=['get'])
+def pagina_inicial():
+    return render_template('index.html')
+    
+
+@app.route('/cadastro', methods=['get'])
+def cadastro():
+    return render_template('cadastro.html')
+
 
 @app.route('/inserir', methods=['POST'])
 def inserir():
@@ -25,6 +33,6 @@ def inserir():
 def listar_por_id(id):
     db = conexao()
     registro = select_id(db, id)
-    produto = Produto()
-    return render_template("listar_id.html", lista_banco_no_html = registro)
+    novo_produto = Produto(id=registro[0],nome=registro[1], descricao=[2], marca=[3], preco=[4], cor=[5])
+    return render_template("listar_id.html", produto = novo_produto)
 
