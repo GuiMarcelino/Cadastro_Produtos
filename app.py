@@ -1,3 +1,4 @@
+from configparser import RawConfigParser
 from flask import Flask, render_template, redirect, request
 from repository import conexao, insert, select, select_id, delete, update
 from product import Produto
@@ -10,7 +11,7 @@ app = Flask(__name__)
 @app.route('/', methods=['get'])
 def pagina_inicial():
     return render_template('index.html')
-    
+
 
 @app.route('/cadastro', methods=['get'])
 def cadastro():
@@ -33,6 +34,12 @@ def inserir():
 def listar_por_id(id):
     db = conexao()
     registro = select_id(db, id)
-    novo_produto = Produto(id=registro[0],nome=registro[1], descricao=[2], marca=[3], preco=[4], cor=[5])
-    return render_template("listar_id.html", produto = novo_produto)
+    novo_produto = Produto(id=registro[0],
+    nome=registro[1],
+    descricao=registro[2],
+    marca=registro[3],
+    preco=registro[4],
+    cor=registro[5])
+    return render_template("listar.html", produto = novo_produto)
 
+app.run(debug=True)
