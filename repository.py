@@ -44,7 +44,7 @@ def delete(db, id_registro):
 
 def insert(db,produto):
     comando_sql = 'INSERT INTO PRODUTOS (NOME, DESCRICAO, MARCA, PRECO, COR) VALUES (%s, %s, %s, %s, %s)'
-    parametros = (produto.nome, produto.descricao, produto.marca, produto.preco, produto.cor)
+    parametros = (produto.nome_produto, produto.descricao, produto.marca, produto.preco, produto.cor)
     try:
         cursor = db.cursor()
         cursor.execute(comando_sql, parametros)
