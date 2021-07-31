@@ -1,9 +1,8 @@
 
+import re
 from flask import Flask, render_template, redirect, request
 from repository import conexao, insert, select, select_id, delete, update
 from product import Produto
-
-
 
 
 app = Flask(__name__)
@@ -29,18 +28,48 @@ def inserir():
     insert(db, produto)
     return redirect('/cadastro')
 
+@app.route('/selecionar/id', methods=['GET'])
+def selecionar_id():
+    return render_template('selecionar_id.html')
+
+
+@app.route('/visualizar', methods=['POST'])
+def visualizar_id():
+    id = request.form['id']
+    return redirect(f'/listar/{id}/')
+
 
 @app.route('/listar/<int:id>/', methods=['GET'])
 def listar_por_id(id):
-    id_selecionado = request.form['Selecione_id']
     db = conexao()
     registro = select_id(db, id)
-    novo_produto = Produto(id=registro[0],
-    nome=registro[1],
-    descricao=registro[2],
-    marca=registro[3],
-    preco=registro[4],
-    cor=registro[5])
-    return render_template("listar.html", produto = novo_produto)
+    novo_produto = Produto(
+        id=registro[0],
+        nome=registro[1],
+        descricao=registro[2],
+        marca=registro[3],
+        preco=registro[4],
+        cor=registro[5])
+    return render_template("listar.html", produto= novo_produto)
+
+
+@app.route('/selecionar/todos/', methods=['GET'])
+def selecionar_produtos():
+        db = conexao()
+        resultado = select(db)
+        lista_produtos = []
+        for index in resultado:
+            lista_produtos.append(Produto(
+                id=index[0],
+                nome=index[1],
+                descricao=index[2],
+                marca=index[3],
+                preco=index[4],
+                cor=index[5]))
+        return render_template("listar_todos.html", lista_banco_no_html= lista_produtos)
+                
+        
+           
+
 
 app.run(debug=True)

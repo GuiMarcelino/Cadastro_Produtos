@@ -44,34 +44,12 @@
           </div>
         </div>
       </nav>    
- 
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Marca</th>
-            <th scope="col">Preco</th>
-            <th scope="col">Cor</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for objeto_banco in lista_banco_no_html %}
-                <tr>
-                  <td>{{objeto_banco.id}}</td>
-                  <td>{{objeto_banco.nome_produto}}</td>
-                  <td>{{objeto_banco.descricao}}</td>
-                  <td>{{objeto_banco.marca}}</td>
-                  <td>{{objeto_banco.preco}}</td>
-                  <td>{{objeto_banco.cor}}</td>
-                </tr>
-            {% endfor %}    
-        </tbody>
-        </table>    
-        </body>
-        </html>
-
-
+    <form class="row g-3" action="/visualizar", method="POST">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">selecione o id</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="id">
+            <input class="btn btn-primary" type="submit" value="salvar">
+        </div>
+    </form>
 </body>
 </html>
