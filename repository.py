@@ -1,5 +1,6 @@
 import mysql.connector
 
+
 def conexao():
     db = mysql.connector.connect(
         host='localhost',
@@ -10,29 +11,29 @@ def conexao():
     return db
 
 def select(db):
-    comando_sql = 'SELECT * FROM CONTATOS'
+    comando_sql = 'SELECT * FROM PRODUTOS'
     try:
         cursor = db.cursor()
         cursor.execute(comando_sql)
         resultado = cursor.fetchall()
         cursor.close()
         return resultado
-    except Exception as error:
-        print(error)
+    except:
+        print('não foi possivel visualizar os produtos')
 
 def select_id(db, id_registro):
-    comando_sql = f'SELECT * FROM CONTATOS WHERE id = {id_registro}'
+    comando_sql = f'SELECT * FROM PRODUTOS WHERE id = {id_registro}'
     try:
         cursor = db.cursor()
         cursor.execute(comando_sql)
         resultado = cursor.fetchone()
         cursor.close()
         return resultado
-    except Exception as error:
-        print(error)
+    except:
+        print('não foi possível selecionar o produto')
 
 def delete(db, id_registro):
-    comando_sql = f'DELETE FROM CONTATOS WHERE ID = {id_registro}'
+    comando_sql = f'DELETE FROM PRODUTOS WHERE ID = {id_registro}'
     try:
         cursor = db.cursor()
         cursor.execute(comando_sql)
@@ -41,9 +42,9 @@ def delete(db, id_registro):
     except Exception as error:
         print(error)
 
-def insert(db, nome, sobrenome, cpf, email, telefone):
-    comando_sql = 'INSERT INTO CONTATOS (NOME, SOBRENOME, CPF, EMAIL, TELEFONE) VALUES (%s, %s, %s, %s, %s)'
-    parametros = (nome, sobrenome, cpf, email, telefone)
+def insert(db,produto):
+    comando_sql = 'INSERT INTO PRODUTOS (NOME, DESCRICAO, MARCA, PRECO, COR) VALUES (%s, %s, %s, %s, %s)'
+    parametros = (produto.nome, produto.descricao, produto.marca, produto.preco, produto.cor)
     try:
         cursor = db.cursor()
         cursor.execute(comando_sql, parametros)
@@ -53,9 +54,15 @@ def insert(db, nome, sobrenome, cpf, email, telefone):
     except Exception as error:
         print(error)
 
-def update(db, id, nome, sobrenome, cpf, email, telefone):
-    comando_sql = "UPDATE CONTATOS SET NOME = %s, SOBRENOME = %s, CPF = %s, EMAIL = %s, TELEFONE = %s WHERE ID = %s"
-    parametros = (nome, sobrenome, cpf, email, telefone, id)
+def update(db, produto):
+    comando_sql = "UPDATE PRODUTOS SET NOME = %s, DESCRICAO = %s, MARCA = %s, PRECO = %s, COR = %s WHERE ID = %s"
+    parametros = (produto.nome,
+                  produto.descricao,
+                  produto.marca,
+                  produto.marca,
+                  produto.preco,
+                  produto.cor,
+                  produto.id)
     try:
         cursor = db.cursor()
         cursor.execute(comando_sql, parametros)
