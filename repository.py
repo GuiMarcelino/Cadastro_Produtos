@@ -56,9 +56,8 @@ def insert(db,produto):
 
 def update(db, produto):
     comando_sql = "UPDATE PRODUTOS SET NOME = %s, DESCRICAO = %s, MARCA = %s, PRECO = %s, COR = %s WHERE ID = %s"
-    parametros = (produto.nome,
+    parametros = (produto.nome_produto,
                   produto.descricao,
-                  produto.marca,
                   produto.marca,
                   produto.preco,
                   produto.cor,

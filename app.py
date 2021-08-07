@@ -28,7 +28,7 @@ def inserir():
     return redirect('/cadastro')
 
 
-@app.route('/deletar')
+@app.route('/deletar', methods=['GET'])
 def deletar():
     id = int(request.args['id'])
     db = conexao()
@@ -77,6 +77,31 @@ def selecionar_produtos():
         return render_template("listar_todos.html", lista_banco_no_html= lista_produtos)
 
 
+@app.route('/alterar')
+def alterar():
+    id = int(request.args['id'])
+    db = conexao()
+    registro = select_id(db, id)
+    novo_produto = Produto(
+        id=registro[0],
+        nome=registro[1],
+        descricao=registro[2],
+        marca=registro[3],
+        preco=registro[4],
+        cor=registro[5])
+    return render_template('alterar_produto.html', registro = novo_produto)
 
+@app.route('/alterar/salvar', methods= ["POST"])
+def alterar_salvar():
+    
+    produto = Produto(request.form['nome_produto'],
+                    request.form['descricao'],
+                    request.form['marca'],
+                    request.form['preco'],
+                    request.form['cor'],
+                    request.form['id'])
+    db = conexao()
+    update(db, produto)
+    return redirect('/selecionar/todos/')
 
 app.run(debug=True)
