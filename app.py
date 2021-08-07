@@ -1,5 +1,4 @@
 
-import re
 from flask import Flask, render_template, redirect, request
 from repository import conexao, insert, select, select_id, delete, update
 from product import Produto
@@ -27,6 +26,15 @@ def inserir():
     db = conexao()
     insert(db, produto)
     return redirect('/cadastro')
+
+
+@app.route('/deletar')
+def deletar():
+    id = int(request.args['id'])
+    db = conexao()
+    delete(db, id)
+    return redirect('/selecionar/todos/')
+
 
 @app.route('/selecionar/id', methods=['GET'])
 def selecionar_id():
@@ -67,9 +75,8 @@ def selecionar_produtos():
                 preco=index[4],
                 cor=index[5]))
         return render_template("listar_todos.html", lista_banco_no_html= lista_produtos)
-                
-        
-           
+
+
 
 
 app.run(debug=True)
